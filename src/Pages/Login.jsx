@@ -32,9 +32,10 @@ const Login=()=>{
       
      try{
 
-      const response=await axios.post(`${import.meta.env.VITE_UBER_BACKEND_URL}/api/v1/user/login`,final_data);
+      const response=await axios.post(`${import.meta.env.VITE_UBER_BACKEND_URL}/api/v1/user/login`,final_data,{
+        withCredentials:true
+      });
       console.log(response);
-     
       localStorage.setItem('token',response.data.data);
       navigate("/home");
       

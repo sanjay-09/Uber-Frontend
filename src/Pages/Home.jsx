@@ -1,16 +1,57 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const suggestions = [
-  "24B, Near Kapoor's cafe, Sheryians Coding School, Bhopal",
-  "22C, Near Malhotra's cafe, Sheryians Coding School, Bhopal",
-  "20B, Near Singhai's cafe, Sheryians Coding School, Bhopal",
-  "18A, Near Sharma's cafe, Sheryians Coding School, Bhopal",
-];
 
 export default function Home() {
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [activeField, setActiveField] = useState(null);
+  const [suggestions,setSuggestions]=useState([]);
+  const navigate=useNavigate();
+
+
+  useEffect(()=>{
+    if(!activeField){
+        return;
+    }
+    const query=activeField=='pickup'? pickup:destination;
+
+    if(!query){
+        return;
+    }
+
+    const handler=setTimeout(()=>{
+        fetchData(query)
+
+    },500);
+
+    return ()=>{
+        clearTimeout(handler);
+    }
+
+  },[pickup,destination,activeField])
+
+  const fetchData=async(query)=>{
+    try{
+        console
+        const res=await axios.get(`${import.meta.env.VITE_UBER_BACKEND_URL}/api/v1/getSuggestions`,{
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            },
+            params:{
+                input:query
+            }
+        })
+        setSuggestions(res.data.data);
+
+    }
+    catch(err){
+
+    }
+  }
+
+
 
   const handleSelect = (value) => {
     if (activeField === "pickup") setPickup(value);
@@ -18,6 +59,13 @@ export default function Home() {
     setActiveField(null);
   };
 
+    const handleFindTrip = () => {
+    if (pickup && destination) {
+      navigate("/choose-ride", {
+        state: { pickup, destination },
+      });
+    }
+  };
   return (
     <div className="w-full h-screen flex flex-col">
       {/* Map Section */}
@@ -61,33 +109,35 @@ export default function Home() {
             className="w-full p-2 border rounded-lg mb-2"
           />
 
+          {
+            pickup && destination &&  <div className="">
+          <button
+  className="w-full py-3 rounded-xl text-lg font-semibold bg-black text-white hover:bg-gray-800 transition-all duration-300 shadow-md"
+ onClick={handleFindTrip}>
+  🚖 Find a Trip
+</button>
+        </div>
+          }
+
           {/* Suggestions */}
-          {activeField && (
+          {activeField && suggestions.length>0 && (
             <div className="flex-1 overflow-y-auto border rounded-lg shadow-md bg-white">
               {suggestions.map((address, index) => (
                 <div
                   key={index}
-                  onClick={() => handleSelect(address)}
+                  onClick={() => handleSelect(address.description)}
                   className="p-2 hover:bg-gray-100 cursor-pointer flex items-center"
                 >
                   <span className="mr-2">📍</span>
-                  <span>{address}</span>
+                  <span>{address.description}</span>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        {/* Book Button Section */}
-        <div className="p-4 border-t flex items-center justify-center">
-          <button
-            disabled={!pickup || !destination}
-            className={`w-full py-3 rounded-xl text-lg font-semibold 
-              ${pickup && destination ? "bg-black text-white" : "bg-gray-300 text-gray-600 cursor-not-allowed"}`}
-          >
-            Book
-          </button>
-        </div>
+       
+       
       </div>
     </div>
   );
