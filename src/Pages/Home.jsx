@@ -1,14 +1,31 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SocketContext } from "../Context/SocketProvider";
+import { useUser } from "../Context/UserProvider";
 
 
 export default function Home() {
+    console.log("home");
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [activeField, setActiveField] = useState(null);
   const [suggestions,setSuggestions]=useState([]);
   const navigate=useNavigate();
+  const {sendMessage}=useContext(SocketContext);
+  const {user}=useUser();
+
+  useEffect(()=>{
+   if(user){
+      sendMessage("join",{
+        userId:user._id,
+        userType:"user"
+
+      });
+   }
+
+
+  },[user]);
 
 
   useEffect(()=>{

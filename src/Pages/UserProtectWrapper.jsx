@@ -11,6 +11,7 @@ const UserProtectWrapper=({children})=>{
      
 
      useEffect(()=>{
+        console.log("useProtected useEffect");
         const verifyToken=async()=>{
             if(!token){
             navigate("/login");
@@ -25,7 +26,10 @@ const UserProtectWrapper=({children})=>{
                 }
                 }
             )
+         
             if(res.status==200){
+                
+                
                 setUser(res.data.data);
 
             }

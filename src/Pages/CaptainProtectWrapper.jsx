@@ -6,12 +6,13 @@ import { useCaptain } from "../Context/CaptainProvider";
 const CaptainProtectWrapper=({children})=>{
     
 const {setCaptainData}=useCaptain();
-    console.log("captainProtected")
+   
     const navigate=useNavigate();
     const token=localStorage.getItem("token");
     console.log("token",token);
    
    useEffect(() => {
+    console.log("protected useEffect")
     const verifyToken=async()=>{
         if(!token){
             navigate("/captain-login");
