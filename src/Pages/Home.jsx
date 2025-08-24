@@ -21,7 +21,8 @@ export default function Home() {
         userId:user._id,
         userType:"user"
 
-      });
+      }); 
+
    }
 
 

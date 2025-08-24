@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
 
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
@@ -10,6 +11,7 @@ import UserProtectWrapper from "./Pages/UserProtectWrapper";
 import CaptainProtectWrapper from "./Pages/CaptainProtectWrapper";
 import CaptainHome from "./Pages/Captainhome";
 import ChooseRide from "./Pages/ChooseRide";
+import NewHome from "./Pages/NewHome";
 
 const App=()=>{
 
@@ -17,7 +19,7 @@ const App=()=>{
     <>
    <Routes>
     <Route path="/" element={<Start/>}/>
-    <Route path="/home" element={<UserProtectWrapper><Home/></UserProtectWrapper>}/>
+    <Route path="/home" element={<UserProtectWrapper><NewHome/></UserProtectWrapper>}/>
     <Route path="/login" element={<Login/>}/>
     <Route path="/signup" element={<Signup/>}/>
     <Route path="/captain-login" element={<Captainlogin/>}/>

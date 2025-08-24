@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { UserProvider } from './Context/UserProvider.jsx'
 import { CaptainProvider } from './Context/CaptainProvider.jsx'
 import SocketProvider from './Context/SocketProvider.jsx'
+import toast, { Toaster } from 'react-hot-toast';
 
 createRoot(document.getElementById('root')).render(
   <SocketProvider>
@@ -13,8 +14,10 @@ createRoot(document.getElementById('root')).render(
   <UserProvider>
  <BrowserRouter>
     <App />
+    <Toaster/>
   </BrowserRouter>
   </UserProvider>
   </CaptainProvider>
-  </SocketProvider>,
+  </SocketProvider>
+  ,
 )

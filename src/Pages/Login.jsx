@@ -32,9 +32,7 @@ const Login=()=>{
       
      try{
 
-      const response=await axios.post(`${import.meta.env.VITE_UBER_BACKEND_URL}/api/v1/user/login`,final_data,{
-        withCredentials:true
-      });
+      const response=await axios.post(`${import.meta.env.VITE_UBER_BACKEND_URL}/api/v1/user/login`,final_data);
       console.log(response);
       localStorage.setItem('token',response.data.data);
       navigate("/home");
@@ -60,7 +58,7 @@ const Login=()=>{
         <input
           type="email"
           name="email"
-          placeholder="email@example.com"
+          placeholder="testuser@example.com"
         value={formData.email}
         onChange={handleChange}
           className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black"
@@ -70,7 +68,7 @@ const Login=()=>{
         <label className="block text-sm font-medium mb-1">Enter Password</label>
         <input
           type="password"
-          placeholder="password"
+          placeholder="testuser"
           name="password"
           value={formData.password}
           onChange={handleChange}
